@@ -46,6 +46,7 @@ class Reader:
         df['date_added'] = df.raw.apply(lambda x: self.extract_date(x))
         df['date_added'] = df.date_added.apply(lambda x: self.format_date(x))
         df['quote'] = df.raw.apply(lambda x: x.split('\n')[4])
+        df.drop('raw', axis=1, inplace=True)
         self.quotes = df
 
     def get_quotes(self):
