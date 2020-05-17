@@ -4,6 +4,7 @@ import numpy as np
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from datetime import datetime
 
 
 class Reader:
@@ -77,6 +78,7 @@ class Reader:
             print('Email not sent')
 
 
-r = Reader()
-r.process_text()
-r.send_email()
+if datetime.today().weekday() in [1, 3, 5]:
+    r = Reader()
+    r.process_text()
+    r.send_email()
