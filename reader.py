@@ -43,7 +43,7 @@ class Reader:
         text_file.close()
 
         df = pd.DataFrame(text, columns=['raw'])
-        df['title_author'] = df.raw.apply(lambda x: x.split('-')[0])
+        df['title_author'] = df.raw.apply(lambda x: x.split('-')[0].strip())
         df['date_added'] = df.raw.apply(lambda x: self.extract_date(x))
         df['date_added'] = df.date_added.apply(lambda x: self.format_date(x))
         df['quote'] = df.raw.apply(lambda x: x.split('\n')[4])
@@ -76,6 +76,10 @@ class Reader:
             print(response.headers)
         except Exception:
             print('Email not sent')
+
+    def export_quotes(self, title):
+        q = self.quotes[self.quotes.title_author == title]
+        q.quote.to_csv('quotes.csv', index=False)
 
 
 if datetime.today().weekday() in [1, 3, 5]:
